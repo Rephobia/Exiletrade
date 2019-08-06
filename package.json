@@ -1,0 +1,13 @@
+{
+	"name": "Exiletrade",
+	"main": "build.js",
+	"dependencies":
+	{
+		"nativefier": ">=7.6.12",
+		"ncp": ">=2.0.0",
+		"node-key-sender": ">=1.0.11",
+		"node-process-windows": ">=0.0.2"
+	},
+	"author": "Roman Erdyakov",
+	"license": "GPL-3.0-or-later"
+}
