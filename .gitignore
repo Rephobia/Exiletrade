@@ -1,5 +1,2 @@
-*
-!*.js
-!*.json
-!.gitignore
-!*.md
+build/
+node_modules/
