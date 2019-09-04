@@ -20,7 +20,7 @@
 
 
 const injections = [
-	"./whisper_injection.js"
+	".src/inject/whisper.js"
 ];
 
 
