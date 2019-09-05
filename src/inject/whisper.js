@@ -22,6 +22,7 @@
 var windowman = require("node-process-windows");
 var sender = require("node-key-sender");
 
+
 document.onclick = function(e)
 {
 	if (e.target.className == "btn btn-default whisper-btn active") {
@@ -34,4 +35,5 @@ document.onclick = function(e)
 			.batchTypeKey("enter")
 			.sendBatch();
 	}
+
 };

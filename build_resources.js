@@ -20,7 +20,7 @@
 
 
 const injections = [
-	".src/inject/whisper.js"
+	"./src/inject/whisper.js"
 ];
 
 
@@ -29,22 +29,10 @@ const options = {
 	targetUrl: 'https://pathofexile.com/trade',
 	out: 'build',
 	inject : injections,
+	alwaysOnTop : true,
 };
-
-
-const dependencies = [
-	"node-process-windows",
-	"node-key-sender"
-];
-
 
 module.exports.get_options = function ()
 {
 	return options;
 };
-
-module.exports.get_dependencies = function ()
-{
-	return dependencies;
-};
-
