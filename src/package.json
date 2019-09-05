@@ -1,9 +1,0 @@
-{
-    "name": "Exiletrade",
-    "dependencies": {
-        "node-key-sender": "^1.0.11",
-        "node-process-windows": "0.0.2"
-    },
-    "author": "Roman Erdyakov",
-    "license": "GPL-3.0-or-later"
-}

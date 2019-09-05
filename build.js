@@ -18,33 +18,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-function make_install_command(appPath)
+
+function copy_dependencies(appPath)
 {
 	const space_char = " ";
-	const destination = __dirname + "/" + appPath + "/resources/app/" + space_char;
-	const source = __dirname + "/src" + space_char;
 	
-	const cmd = "npm --prefix" + space_char + source
-	      + "install --prefix" + space_char + destination;
-	
+	const source = __dirname + "\\node_modules\\*";
+	const destination = __dirname +  "\\" + appPath + "\\resources\\app\\node_modules\\";
+
+	const cmd = "xcopy /E /Y"
+	      + space_char + source
+	      + space_char + destination;
+
 	return cmd;
 }
 
-function build_dependencies(appPath, dependencies)
+function build_dependencies(appPath)
 {
-	let child_process = require('child_process');
-	
-	const install_cmd = make_install_command(appPath);
-	
-	for (let i = dependencies.length; i--;) {
-		
-		const dependence = dependencies[i];
-		child_process.execSync(install_cmd + dependence, {stdio:[0,1,2]});
-	}
+	let process = require('child_process');
+
+	process.execSync("npm install", {stdio:[0,1,2]});
+	process.execSync(copy_dependencies(appPath), {stdio:[0,1,2]});
 }
 
 
-function build_nativefier(options, dependencies)
+function build_nativefier(options)
 {
 	const nativefier_cb = function(error, appPath)
 	{
@@ -53,7 +51,7 @@ function build_nativefier(options, dependencies)
 			return;
 		}
 		
-		build_dependencies(appPath, dependencies);
+		build_dependencies(appPath);
 	};
 
 	const nativefier = require("nativefier").default;
@@ -64,7 +62,7 @@ function build_nativefier(options, dependencies)
 function main()
 {
 	const resources = require("./build_resources.js");
-	build_nativefier(resources.get_options(), resources.get_dependencies());
+	build_nativefier(resources.get_options());
 }
 
 
