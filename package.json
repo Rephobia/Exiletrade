@@ -1,8 +1,10 @@
 {
     "name": "Exiletrade",
     "dependencies": {
-        "child_process": "^1.0.2",
-        "nativefier": "^7.7.0"
+        "child-process": "^1.0.2",
+        "nativefier": "^7.7.0",
+        "node-key-sender": "^1.0.11",
+        "node-process-windows": "0.0.2"
     },
     "author": "Roman Erdyakov",
     "license": "GPL-3.0-or-later"
