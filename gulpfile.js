@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later
 
- * Copyright (C) 2019 Roman Erdyakov (Linhurdos) <teremdev@gmail.com>
+ * Copyright (C) 2019 Roman Erdyakov <teremdev@gmail.com>
 
  * This file is part of Exiletrade.
  * Exiletrade is free software: you can redistribute it and/or modify
@@ -19,26 +19,43 @@
  */
 
 
-function copy_dependencies(appPath)
+function install_dependencies(gulp)
 {
-	const space_char = " ";
+	const source = __dirname + "/src/modules/**/*";
+	const output = __dirname + "/build/";
 	
-	const source = __dirname + "\\node_modules\\*";
-	const destination = __dirname +  "\\" + appPath + "\\resources\\app\\node_modules\\";
+	const install = require("gulp-install");
+	
+	return function ()
+	{
+		return gulp.src(source)
+			.pipe(gulp.dest(output))
+			.pipe(install());
+	};
+}
 
-	const cmd = "xcopy /E /Y"
-	      + space_char + source
-	      + space_char + destination;
+function copy_dependencies (gulp, appPath)
+{
+	const source = __dirname + "/build/node_modules/**/*";
+	const destination = __dirname + "/" + appPath + "/resources/app/node_modules/";
 
-	return cmd;
+	return function ()
+	{
+		return gulp.src(source)
+			.pipe(gulp.dest(destination));	
+	};
 }
 
 function build_dependencies(appPath)
 {
-	let process = require('child_process');
+	const gulp = require("gulp");
+	
+	const install_task = install_dependencies(gulp);
+	const copy_task = copy_dependencies(gulp, appPath);
 
-	process.execSync("npm install", {stdio:[0,1,2]});
-	process.execSync(copy_dependencies(appPath), {stdio:[0,1,2]});
+	const series = gulp.series(install_task, copy_task);
+	
+	series();
 }
 
 
@@ -50,14 +67,14 @@ function build_nativefier(options)
 			console.error(error);
 			return;
 		}
-		
+
 		build_dependencies(appPath);
+
 	};
 
 	const nativefier = require("nativefier").default;
 	nativefier(options, nativefier_cb);
 }
-
 
 function main()
 {
