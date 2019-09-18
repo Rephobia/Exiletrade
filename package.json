@@ -1,10 +1,12 @@
 {
     "name": "Exiletrade",
     "dependencies": {
-        "child-process": "^1.0.2",
-        "nativefier": "^7.7.0",
-        "node-key-sender": "^1.0.11",
-        "node-process-windows": "0.0.2"
+        "gulp": "^4.0.2",
+        "gulp-install": "^1.1.0",
+        "nativefier": "^7.7.0"
+    },
+    "scripts": {
+        "build": "node gulpfile.js"
     },
     "author": "Roman Erdyakov",
     "license": "GPL-3.0-or-later"
