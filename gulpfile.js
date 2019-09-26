@@ -25,12 +25,14 @@ function install_dependencies(gulp)
 	const output = __dirname + "/build/";
 	
 	const install = require("gulp-install");
+	const clean = require('gulp-clean');
 	
 	return function ()
 	{
 		return gulp.src(source)
 			.pipe(gulp.dest(output))
-			.pipe(install());
+			// .pipe(gulp.src("package-lock.json", {read: false}).pipe(clean()))
+			.pipe(install({args: ["--no-package-lock"]}));
 	};
 }
 
@@ -41,8 +43,8 @@ function copy_dependencies (gulp, appPath)
 
 	return function ()
 	{
-		return gulp.src(source)
-			.pipe(gulp.dest(destination));	
+		return gulp.src(source, { follow: true, convertToFile: true})
+			.pipe(gulp.dest(destination));
 	};
 }
 

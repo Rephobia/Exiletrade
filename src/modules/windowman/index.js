@@ -19,26 +19,13 @@
  */
 
 
-const POE_TITLE = "Path of Exile";
-const WHISPER_BTN = "btn btn-default whisper-btn active";
+const windowman = require("./build/Release/windowman");
 
 
-const windowman = require("windowman");
-const sender = require("node-key-sender");
+module.exports.set_focus = function (title) {
+	return windowman.set_focus(title);
+};
 
-
-document.onclick = function(e)
-{
-	if (e.target.className == WHISPER_BTN) {
-
-		if (windowman.set_focus(POE_TITLE)) {
-			
-			sender.startBatch()
-				.batchTypeKey("enter")
-				.batchTypeCombination(["control", "v"])
-				.batchTypeKey("enter")
-				.sendBatch();
-			
-		}
-	}
+module.exports.toggle_show = function (title) {
+	return windowman.toggle_show(title);
 };
