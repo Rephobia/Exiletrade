@@ -2,7 +2,19 @@
     "name": "Exiletrade-modules",
     "dependencies": {
         "node-key-sender": "^1.0.11",
+	"iohook": "^0.6.1",
         "windowman": "file:./windowman/"
+    },
+    "iohook": {
+	"targets": [
+	    "electron-70"
+	],
+	"platforms": [
+	    "win32"
+	],
+	"arches": [
+	    "x64"
+	]
     },
     "author": "Roman Erdyakov",
     "license": "GPL-3.0-or-later"

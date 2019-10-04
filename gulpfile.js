@@ -19,69 +19,135 @@
  */
 
 
-function install_dependencies(gulp)
-{
-	const source = __dirname + "/src/modules/**/*";
-	const output = __dirname + "/build/";
-	
-	const install = require("gulp-install");
-	const clean = require('gulp-clean');
-	
-	return function ()
+function concat_init(gulp)
+{	
+	const task =  function (done)
 	{
-		return gulp.src(source)
+		console.log("\n---Concat---\n");
+
+		const end = function ()
+		{
+			console.log("---Concat done---");
+			done();
+		};
+		
+		const gulp_concat = require("gulp-concat");
+		
+		const source = "./src/inject/*.js";
+		const output = "concatenated.js";
+		const destination = "./build/";
+
+		gulp.src(source)
+			.pipe(gulp_concat(output))
+			.pipe(gulp.dest(destination))
+			.on("end", end);
+	};
+	
+	return task;
+}
+
+
+function nativefier_init(gulp, resources)
+{
+	const task = function (done)
+	{
+		console.log("\n---Build nativefier---\n");
+		const end = function(error, appPath)
+		{
+			if (error) {
+				console.error(error);
+				return;
+			}
+
+			resources.set_path(appPath);
+			console.log("\n---Build nativefier done---\n");
+			done();
+		};
+		
+		const nativefier = require("nativefier").default;
+		nativefier(resources.get_options(), end);
+	};
+	
+	return task;
+}
+
+
+function install_init(gulp)
+{
+	const task = function (done)
+	{
+		console.log("\n---Install dependencies---\n");
+		
+		const end = function ()
+		{
+			console.log("---Install done---");
+			done();
+		};
+		
+		const install = require("gulp-install");
+		const source = __dirname + "/src/modules/**/*";
+		const output = __dirname + "/build/";
+		
+		gulp.src(source)
 			.pipe(gulp.dest(output))
-			// .pipe(gulp.src("package-lock.json", {read: false}).pipe(clean()))
-			.pipe(install({args: ["--no-package-lock"]}));
+			.pipe(install({args: ["--no-package-lock"]}, end));
+
 	};
-}
-
-function copy_dependencies (gulp, appPath)
-{
-	const source = __dirname + "/build/node_modules/**/*";
-	const destination = __dirname + "/" + appPath + "/resources/app/node_modules/";
-
-	return function ()
-	{
-		return gulp.src(source, { follow: true, convertToFile: true})
-			.pipe(gulp.dest(destination));
-	};
-}
-
-function build_dependencies(appPath)
-{
-	const gulp = require("gulp");
 	
-	const install_task = install_dependencies(gulp);
-	const copy_task = copy_dependencies(gulp, appPath);
-
-	const series = gulp.series(install_task, copy_task);
-	
-	series();
+	return task;
 }
 
 
-function build_nativefier(options)
+function copy_init(gulp, resources)
 {
-	const nativefier_cb = function(error, appPath)
+	const task = function (done)
 	{
-		if (error) {
-			console.error(error);
-			return;
-		}
-
-		build_dependencies(appPath);
-
+		console.log("\n---Copy dependencies---\n");
+		
+		const end = function ()
+		{
+			console.log("---Copy dependencies done---");
+			done();
+		};
+		
+		const source = __dirname + "/build/node_modules/**/*";
+		const destination = __dirname + "/" + resources.get_path() +
+		      "/resources/app/node_modules/";
+		
+		gulp.src(source, { follow: true, convertToFile: true})
+			.pipe(gulp.dest(destination))
+			.on("end", end);
 	};
-
-	const nativefier = require("nativefier").default;
-	nativefier(options, nativefier_cb);
+	
+	return task;
 }
+
+
+class Builder
+{	
+	constructor(gulp)
+	{
+		this.resources = require("./build_resources.js");
+				
+		this.concat = concat_init(gulp);
+		this.nativefier = nativefier_init(gulp, this.resources);
+		this.install = install_init(gulp);
+		this.copy = copy_init(gulp, this.resources);
+	}
+}
+
 
 function main()
 {
-	const resources = require("./build_resources.js");
-	build_nativefier(resources.get_options());
+	const gulp = require("gulp");
+	
+	const builder = new Builder (gulp);
+	
+	const runner = gulp.series(builder.concat,
+	                           builder.nativefier,
+	                           builder.install,
+	                           builder.copy);
+	runner();
 }
 
 

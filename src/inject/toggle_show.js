@@ -19,41 +19,27 @@
  */
 
 
-const injections = [
-	"./build/concatenated.js"
-];
-
-
-const options = {
-	name: 'Exiletrade',
-	targetUrl: 'https://pathofexile.com/trade',
-	out: 'build',
-	inject : injections,
-	alwaysOnTop : true,
-};
-
-
-module.exports.get_options = function ()
 {
-	return options;
-};
+	const trade_title = "Trade - Path of Exile";
+	
+	const ctrl_key = 29;
+	const alt_key = 56;
+
+	const a_key = 30;
+	const s_key = 31;
+	const f_key = 33;
 
 
-var app_path = "";
+	const mod = alt_key;
+	const key = f_key;
 
-module.exports.set_path = function (path)
-{
-	app_path = path;
-};
+	const ioHook = require('iohook');
 
-module.exports.get_path = function ()
-{
-	if (app_path === "") {
-		console.error("Nativefier didn't set appPath." +
-		              " Use resources.set_path(appPath) after build nativefier");
-		process.exit(1);
-	}
-	return app_path;
-};
+	const windowman = require("windowman");
 
+	const id = ioHook.registerShortcut([mod, key], (keys) => {
+		windowman.toggle_show(trade_title);
+	});
 
+	ioHook.start();
+}
