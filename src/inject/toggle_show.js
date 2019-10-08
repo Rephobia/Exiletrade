@@ -20,7 +20,9 @@
 
 
 {
-	const trade_title = "Trade - Path of Exile";
+
+	const trade_title = "Exiletrade";
+	document.title = trade_title;
 	
 	const ctrl_key = 29;
 	const alt_key = 56;
