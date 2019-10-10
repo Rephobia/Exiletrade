@@ -1,5 +1,7 @@
 {
     "name": "Exiletrade",
+    "version": "0.1.0",
+    "description": "Exiletrade is a wrapper for pathofexile.com/trade",
     "dependencies": {
         "cmake-js": "^6.0.0",
         "gulp": "^4.0.2",
@@ -11,5 +13,6 @@
         "build": "node gulpfile.js"
     },
     "author": "Roman Erdyakov",
-    "license": "GPL-3.0-or-later"
+    "license": "GPL-3.0-or-later",
+ 
 }
