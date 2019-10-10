@@ -1,5 +1,6 @@
 {
     "name": "Exiletrade-modules",
+        "private": true,
     "dependencies": {
         "node-key-sender": "^1.0.11",
 	"iohook": "^0.6.1",
