@@ -7,8 +7,13 @@ Exiletrade is a wrapper for pathofexile.com/trade
 ## Building from sources
 
 ### Required
-- Node.js (10.16.3 and 12.11.1 work for me)
-
+- [Node.js](https://nodejs.org/) (10.16.3 and 12.11.1 work for me)
+- [CMake](https://www.cmake.org/download/)
+- A proper C/C++ compiler toolchain of the given platform
+    - **Windows**:
+        - [Visual C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+        or a recent version of Visual C++ will do ([the free Community](https://www.visualstudio.com/products/visual-studio-community-vs) version works well)
+		
 ### Build
     git clone https://gitlab.com/Linhurdos/Exiletrade . 
     npm install
