@@ -1,12 +1,13 @@
 {
-   "name": "windowman",
-   "version": "0.1.0",
-   "description": "Manage windows - set focus by title, toggle minimize/restore by title",
-   "main": "index.js",
+    "name": "windowman",
+    "version": "0.1.0",
+    "description": "Manage windows - set focus by title, toggle minimize/restore by title",
+    "private": true,
+    "main": "index.js",
     "scripts": {
 	"postinstall": "cmake-js compile --runtime=electron --runtimeVersion=5.0.10",
 	"preinstall": "npm install node-addon-api"
     },
-   "author": "Roman Erdyakov",
-   "license": "GPL-3.0-or-later"
+    "author": "Roman Erdyakov",
+    "license": "GPL-3.0-or-later"
 }
