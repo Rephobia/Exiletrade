@@ -15,7 +15,7 @@ Exiletrade is a wrapper for pathofexile.com/trade
         or a recent version of Visual C++ will do ([the free Community](https://www.visualstudio.com/products/visual-studio-community-vs) version works well)
 		
 ### Build
-    git clone https://gitlab.com/Linhurdos/Exiletrade . 
+    git clone https://gitlab.com/DoomerRoman/Exiletrade . 
     npm install
     npm run build
 
