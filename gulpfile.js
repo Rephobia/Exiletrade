@@ -19,18 +19,21 @@
  */
 
 
+function end_task(done_callback, message)
+{
+	return function ()
+	{
+		console.log(message);
+		
+		done_callback();		
+	};
+
+}
+
 function concat_init(gulp)
 {	
 	const task =  function (done)
 	{
-		console.log("\n---Concat---\n");
-
-		const end = function ()
-		{
-			console.log("---Concat done---");
-			done();
-		};
-		
 		const gulp_concat = require("gulp-concat");
 		
 		const source = "./src/inject/*.js";
@@ -40,7 +43,7 @@ function concat_init(gulp)
 		gulp.src(source)
 			.pipe(gulp_concat(output))
 			.pipe(gulp.dest(destination))
-			.on("end", end);
+			.on("end", end_task(done, "\nConcat DONE\n"));
 	};
 	
 	return task;
@@ -51,7 +54,6 @@ function nativefier_init(gulp, resources)
 {
 	const task = function (done)
 	{
-		console.log("\n---Build nativefier---\n");
 		const end = function(error, appPath)
 		{
 			if (error) {
@@ -60,7 +62,7 @@ function nativefier_init(gulp, resources)
 			}
 
 			resources.set_path(appPath);
-			console.log("\n---Build nativefier done---\n");
+			console.log("\nBuild nativefier DONE\n");
 			done();
 		};
 		
@@ -75,22 +77,15 @@ function nativefier_init(gulp, resources)
 function install_init(gulp)
 {
 	const task = function (done)
-	{
-		console.log("\n---Install dependencies---\n");
-		
-		const end = function ()
-		{
-			console.log("---Install done---");
-			done();
-		};
-		
+	{				
 		const install = require("gulp-install");
 		const source = __dirname + "/src/modules/**/*";
 		const output = __dirname + "/build/";
 		
 		gulp.src(source)
 			.pipe(gulp.dest(output))
-			.pipe(install({args: ["--no-package-lock"]}, end));
+			.pipe(install({args: ["--no-package-lock"]},
+			              end_task(done, "Install DONE")));
 
 	};
 	
@@ -101,22 +96,31 @@ function install_init(gulp)
 function copy_init(gulp, resources)
 {
 	const task = function (done)
-	{
-		console.log("\n---Copy dependencies---\n");
-		
-		const end = function ()
-		{
-			console.log("---Copy dependencies done---");
-			done();
-		};
-		
+	{		
 		const source = __dirname + "/build/node_modules/**/*";
 		const destination = __dirname + "/" + resources.get_path() +
 		      "/resources/app/node_modules/";
 		
 		gulp.src(source, { follow: true, convertToFile: true})
 			.pipe(gulp.dest(destination))
-			.on("end", end);
+			.on("end", end_task(done, "Copy dependencies DONE"));
+	};
+	
+	return task;
+}
+
+
+function copy_html_init(gulp, resources)
+{
+	const task = function (done)
+	{		
+		const source = "./src/inject/*.html";
+		const destination = __dirname + "/" + resources.get_path() +
+		      "/resources/app/inject/";
+
+		gulp.src(source, { follow: true, convertToFile: true})
+			.pipe(gulp.dest(destination))
+			.on("end", end_task(done, "Copy html DONE"));
 	};
 	
 	return task;
@@ -133,6 +137,7 @@ class Builder
 		this.nativefier = nativefier_init(gulp, this.resources);
 		this.install = install_init(gulp);
 		this.copy = copy_init(gulp, this.resources);
+		this.copy_html = copy_html_init(gulp, this.resources);
 	}
 }
 
@@ -146,7 +151,8 @@ function main()
 	const runner = gulp.series(builder.concat,
 	                           builder.nativefier,
 	                           builder.install,
-	                           builder.copy);
+	                           builder.copy,
+	                           builder.copy_html);
 	runner();
 }
 
