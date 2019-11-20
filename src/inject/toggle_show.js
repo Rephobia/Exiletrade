@@ -20,28 +20,13 @@
 
 
 {
-
 	const trade_title = "Exiletrade";
 	document.title = trade_title;
 	
-	const ctrl_key = 29;
-	const alt_key = 56;
-
-	const a_key = 30;
-	const s_key = 31;
-	const f_key = 33;
-
-
-	const mod = alt_key;
-	const key = f_key;
-
-	const ioHook = require('iohook');
-
 	const windowman = require("windowman");
-
-	const id = ioHook.registerShortcut([mod, key], (keys) => {
-		windowman.toggle_show(trade_title);
-	});
-
-	ioHook.start();
+	
+	et_keys.register("toggle_show", "Alt+F", () =>
+	                 {
+		                 windowman.toggle_show(trade_title);
+	                 });
 }
