@@ -23,12 +23,14 @@
 
 	const electron = require("electron").remote;
 	
+	const hotkey = require("./hotkey.js");
+	
 	const path = require("path");
 	const url = require("url");
 	
 	let menu;
 	
-	et_keys.register("settings", "Ctrl+X", toggle_menu);
+	hotkey.register("settings", "Ctrl+X", toggle_menu);
 
 	function toggle_menu ()
 	{
@@ -50,15 +52,15 @@
 		menu.on("closed", () => { menu = null; });
 
 		menu.webContents.on("dom-ready", () => {
-			menu.send("keyedit:registered_settings", et_keys.sequence_by_name("settings"));
-			menu.send("keyedit:registered_toggle_show", et_keys.sequence_by_name("toggle_show"));
+			menu.send("keyedit:registered_settings", hotkey.sequence_by_name("settings"));
+			menu.send("keyedit:registered_toggle_show", hotkey.sequence_by_name("toggle_show"));
 		});
 	}
 
 	electron.ipcMain.on("keyedit:add",
 	                    function(event, sequence)
 	                    {
-		                    et_keys.change_sequence(sequence.name, sequence.string);
+		                    hotkey.change_sequence(sequence.name, sequence.string);
 		                    event.sender.send("keyedit:registered_" + sequence.name, sequence.string);
 	                    });
 }());

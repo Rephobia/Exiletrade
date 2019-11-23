@@ -108,7 +108,7 @@ function copy_code(gulp, resources)
 }
 
 
-function main()
+(function main()
 {
 	const gulp = require("gulp");
 	let resources = require("./build_resources.js");
@@ -118,7 +118,5 @@ function main()
 	                           copy_dependencies(gulp, resources),
 	                           copy_code(gulp, resources));
 	runner();
-}
+}());
 
-
-main();
