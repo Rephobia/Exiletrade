@@ -36,7 +36,7 @@
 					.batchTypeKey("enter")
 					.batchTypeCombination(["control", "v"])
 					.batchTypeKey("enter")
-					.sendBatch();			
+					.sendBatch();
 			}
 		}
 	};
