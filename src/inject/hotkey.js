@@ -18,25 +18,45 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const hotkey = require("./hotkey.js");
-const menu = require("./settings.js");
-const whisper = require("./whisper.js");
 
-const windowman = require("windowman");
+const electron = require("electron").remote;
 
-const trade_title = "Exiletrade";
+var keymap = {};
 
 
-(function main()
+function register(name, sequence, func)
 {
-	document.title = trade_title;
+	const rc = electron.globalShortcut.register(sequence, func);
 	
-	hotkey.register("toggle_show", "Alt+F", () =>
-	                 {
-		                 windowman.toggle_show(trade_title);
-	                 });
+	if (rc) {
+		keymap[name] = { sequence: sequence, func: func };
+	}
+	else {
+		alert("Cannot register global hotkey " + sequence);
+	}
+};
 
 
-}());
+function change_sequence(name, sequence)
+{
+	if (name in keymap) {
+		let item = keymap[name];
+		register(item.name, sequence, item.func);
+		electron.globalShortcut.unregister(item.sequence, item.func);
+		item.sequence = sequence;
+	}
+	else {
+		alert(name + " doesn't exist in keymap");
+	}
+};
 
 
+function sequence_by_name(name)
+{
+	return keymap[name].sequence;
+};
+
+
+module.exports.register = register;
+module.exports.change_sequence = change_sequence;
+module.exports.sequence_by_name = sequence_by_name;
