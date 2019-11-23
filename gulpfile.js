@@ -30,27 +30,8 @@ function end_task(done_callback, message)
 
 }
 
-function concat_init(gulp)
-{	
-	const task =  function (done)
-	{
-		const gulp_concat = require("gulp-concat");
-		
-		const source = "./src/inject/*.js";
-		const output = "concatenated.js";
-		const destination = "./build/";
 
-		gulp.src(source)
-			.pipe(gulp_concat(output))
-			.pipe(gulp.dest(destination))
-			.on("end", end_task(done, "\nConcat DONE\n"));
-	};
-	
-	return task;
-}
-
-
-function nativefier_init(gulp, resources)
+function build_nativefier(gulp, resources)
 {
 	const task = function (done)
 	{
@@ -74,7 +55,7 @@ function nativefier_init(gulp, resources)
 }
 
 
-function install_init(gulp)
+function install_dependencies(gulp)
 {
 	const task = function (done)
 	{				
@@ -93,7 +74,7 @@ function install_init(gulp)
 }
 
 
-function copy_init(gulp, resources)
+function copy_dependencies(gulp, resources)
 {
 	const task = function (done)
 	{		
@@ -110,15 +91,15 @@ function copy_init(gulp, resources)
 }
 
 
-function copy_html_init(gulp, resources)
+function copy_code(gulp, resources)
 {
 	const task = function (done)
 	{		
-		const source = "./src/inject/*.html";
+		const source = "./src/inject/*.*";
 		const destination = __dirname + "/" + resources.get_path() +
 		      "/resources/app/inject/";
 
-		gulp.src(source, { follow: true, convertToFile: true})
+		gulp.src(source, {"ignore":["./src/inject/index.js"], follow: true, convertToFile: true})
 			.pipe(gulp.dest(destination))
 			.on("end", end_task(done, "Copy html DONE"));
 	};
@@ -127,32 +108,15 @@ function copy_html_init(gulp, resources)
 }
 
 
-class Builder
-{	
-	constructor(gulp)
-	{
-		this.resources = require("./build_resources.js");
-				
-		this.concat = concat_init(gulp);
-		this.nativefier = nativefier_init(gulp, this.resources);
-		this.install = install_init(gulp);
-		this.copy = copy_init(gulp, this.resources);
-		this.copy_html = copy_html_init(gulp, this.resources);
-	}
-}
-
-
 function main()
 {
 	const gulp = require("gulp");
-	
-	const builder = new Builder (gulp);
-	
-	const runner = gulp.series(builder.concat,
-	                           builder.nativefier,
-	                           builder.install,
-	                           builder.copy,
-	                           builder.copy_html);
+	let resources = require("./build_resources.js");
+
+	const runner = gulp.series(build_nativefier(gulp, resources),
+	                           install_dependencies(gulp),
+	                           copy_dependencies(gulp, resources),
+	                           copy_code(gulp, resources));
 	runner();
 }
 

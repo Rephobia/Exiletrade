@@ -18,42 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const hotkeys = require("./hotkeys.js");
+const menu = require("./settings.js");
+const toggle_show = require("./toggle_show.js");
+const whisper = require("./whisper.js");
 
-const injections = [
-	"./src/inject/index.js"
-];
-
-
-const options = {
-	name: 'Exiletrade',
-	targetUrl: 'https://pathofexile.com/trade',
-	out: 'build',
-	inject : injections,
-	alwaysOnTop : true,
-};
-
-
-module.exports.get_options = function ()
-{
-	return options;
-};
-
-
-var app_path = "";
-
-module.exports.set_path = function (path)
-{
-	app_path = path;
-};
-
-module.exports.get_path = function ()
-{
-	if (app_path === "") {
-		console.error("Nativefier didn't set appPath." +
-		              " Use resources.set_path(appPath) after build nativefier");
-		process.exit(1);
-	}
-	return app_path;
-};
 
 
