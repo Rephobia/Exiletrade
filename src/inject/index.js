@@ -19,14 +19,27 @@
  */
 
 
+const hotkey = require("./hotkey.js");
+const menu = require("./menu.js");
+const whisper = require("./whisper.js");
+const resource = require("./resource.js");
+
+const windowman = require("windowman");
+
+
+(function main()
 {
-	const trade_title = "Exiletrade";
-	document.title = trade_title;
+	document.title = resource.title;
 	
-	const windowman = require("windowman");
+	hotkey.register(resource.toggle_name, "Alt+F", () =>
+	                {
+		                windowman.toggle_show(resource.title);
+	                });
 	
-	et_keys.register("toggle_show", "Alt+F", () =>
-	                 {
-		                 windowman.toggle_show(trade_title);
-	                 });
-}
+	hotkey.register(resource.menu_name, "Ctrl+X", menu.show);
+
+
+	document.onclick = whisper.hook;
+}());
+
+
