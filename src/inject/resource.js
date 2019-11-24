@@ -19,24 +19,11 @@
  */
 
 
-const poe_title = "Path of Exile";
-const whisper_btn = "btn btn-default whisper-btn active";
-
-const windowman = require("windowman");
-const sender = require("node-key-sender");
-
-document.onclick = function(e)
-{
-	if (e.target.className == whisper_btn) {
-
-		if (windowman.set_focus(poe_title)) {
-			
-			sender.startBatch()
-				.batchTypeKey("enter")
-				.batchTypeCombination(["control", "v"])
-				.batchTypeKey("enter")
-				.sendBatch();
-		}
-	}
+const resource = {
+	menu_name: "menu",
+	toggle_name: "toggle",
+	title: "Exiletrade"
 };
 
+
+module.exports = resource;
