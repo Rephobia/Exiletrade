@@ -19,25 +19,11 @@
  */
 
 
-const hotkey = require("./hotkey.js");
-const menu = require("./settings.js");
-const whisper = require("./whisper.js");
-const resource = require("./resource.js");
-
-const windowman = require("windowman");
-
-(function main()
-{
-	document.title = resource.title;
-
-	console.log(resource.toggle_name, resource.menu_name);
-	
-	hotkey.register(resource.toggle_name, "Alt+F", () =>
-	                {
-		                windowman.toggle_show(resource.title);
-	                });
-	
-	hotkey.register(resource.menu_name, "Ctrl+X", menu.show);
-}());
+const resource = {
+	menu_name: "menu",
+	toggle_name: "toggle",
+	title: "Exiletrade"
+};
 
 
+module.exports = resource;
