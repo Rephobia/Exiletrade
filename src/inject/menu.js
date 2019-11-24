@@ -43,7 +43,7 @@ function show()
 		                                    nodeIntegration: true
 	                                    }});
 
-	menu.loadURL(url.format({ pathname: path.join(__dirname, "settings.html"),
+	menu.loadURL(url.format({ pathname: path.join(__dirname, "menu.html"),
 	                          protocol: "file:",
 	                          slashes:true
 	                        }));
