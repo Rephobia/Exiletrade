@@ -20,7 +20,7 @@
 
 
 const injections = [
-	"./build/concatenated.js"
+	"./src/inject/index.js"
 ];
 
 
