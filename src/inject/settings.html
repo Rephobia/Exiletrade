@@ -38,63 +38,59 @@
   <script>
 
     const ipc = require("electron").ipcRenderer;
+    const resource = require("./resource.js");
+    const hotkey = require("./hotkey.js");
 
     
     let settings_field = document.getElementById("et-key-settings");
     
-    settings_field.addEventListener("keydown", keyboard_listener("settings"));
+    settings_field.addEventListener("keydown", keyboard_listener(resource.menu_name));
 
     settings_field.addEventListener("keyup", () => {
 	settings_field.blur();
     });
 
-    ipc.on("keyedit:registered_settings",
-	   function (e, keys_string)
+    ipc.on(hotkey.registered_msg(resource.menu_name),
+	   function (e, sequence)
 	   {
-	       settings_field.value = keys_string;
+	       settings_field.value = sequence;
 	   });
 
 
     let toggle_show_field = document.getElementById("et-key-toggle_show");
     
-
-    
-    toggle_show_field.addEventListener("keydown", keyboard_listener("toggle_show"));
+    toggle_show_field.addEventListener("keydown", keyboard_listener(resource.toggle_name));
 
     toggle_show_field.addEventListener("keyup", () => {
 	toggle_show_field.blur();
     });
 
-    ipc.on("keyedit:registered_toggle_show",
-	   function (e, keys_string)
+    ipc.on(hotkey.registered_msg(resource.toggle_name),
+	   function (e, sequence)
 	   {
-	       toggle_show_field.value = keys_string;
+	       toggle_show_field.value = sequence;
 	   });
 
     
     
-    function keyboard_listener (field_name)
+    function keyboard_listener(field_name)
     {
 	return function (event)
 	{
-	    let key_string = "";
+	    let sequence = "";
 	    
 	    if ((15 < event.keyCode && event.keyCode < 19)
     		|| event.key == "Meta") {
     		return;
     	    }
-
-    	    if (event.shiftKey) { key_string += "Shift+"; }
-    	    if (event.ctrlKey) { key_string += "Ctrl+"; }
-    	    if (event.altKey) { key_string += "Alt+"; }
 	    
-    	    key_string += event.key.toUpperCase();
+    	    if (event.shiftKey) { sequence += "Shift+"; }
+    	    if (event.ctrlKey) { sequence += "Ctrl+"; }
+    	    if (event.altKey) { sequence += "Alt+"; }
 	    
-    	    var keysequence = {
-    		name: field_name,
-    		string: key_string		
-    	    }
-    	    ipc.send("keyedit:add", keysequence);
+    	    sequence += event.key.toUpperCase();
+	    
+    	    ipc.send(hotkey.add_msg(), field_name, sequence);
 
     	};
     }
