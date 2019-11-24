@@ -19,13 +19,57 @@
  */
 
 
-const resource = {
-	menu_name: "menu",
-	toggle_name: "toggle",
+const fs = require("fs");
+const path = require("path");
+
+
+var resource = {
 	title: "Exiletrade",
 	poe_title: "Path of Exile",
-	whisper_btn: "btn btn-default whisper-btn active"
+	whisper_btn: "btn btn-default whisper-btn active",
+	menu_name: "menu",
+	toggle_name: "toggle",
+	toggle_key: "Alt+F",
+	menu_key: "Alt+S"
 };
+
+
+const file_name = "exiletrade.json";
+
+function find_missing(object)
+{
+	for (var key in resource) {
+
+		if (!object.hasOwnProperty(key)) {
+			object[key] = resource[key];
+		}
+	}
+
+	return object;
+};
+
+
+(function () {
+	
+	try {
+		let file = fs.readFileSync(path.join(__dirname, file_name), "utf8");
+		
+		let json = JSON.parse(file);
+
+		resource = find_missing(json);
+	}
+	catch (err) {
+		if (err.code === "ENOENT") {
+			
+			console.log("not an error: exiletrade.json doesn't exist");
+			// if file doesn't exist, default resource is used
+		}
+		else {
+			throw err;
+		}
+	}
+	
+}());
 
 
 module.exports = resource;
