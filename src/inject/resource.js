@@ -19,24 +19,13 @@
  */
 
 
-const windowman = require("windowman");
-const sender = require("node-key-sender");
-const resource = require("./resource.js");
-
-
-function hook(event)
-{
-	if (event.target.className == resource.whisper_btn) {
-
-		if (windowman.set_focus(resource.poe_title)) {
-			
-			sender.startBatch()
-				.batchTypeKey("enter")
-				.batchTypeCombination(["control", "v"])
-				.batchTypeKey("enter")
-				.sendBatch();
-		}
-	}
+const resource = {
+	menu_name: "menu",
+	toggle_name: "toggle",
+	title: "Exiletrade",
+	poe_title: "Path of Exile",
+	whisper_btn: "btn btn-default whisper-btn active"
 };
 
-module.exports.hook = hook;
+
+module.exports = resource;
