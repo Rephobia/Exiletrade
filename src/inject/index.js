@@ -26,6 +26,7 @@ const resource = require("./resource.js");
 
 const windowman = require("windowman");
 
+
 (function main()
 {
 	document.title = resource.title;
@@ -36,6 +37,9 @@ const windowman = require("windowman");
 	                });
 	
 	hotkey.register(resource.menu_name, "Ctrl+X", menu.show);
+
+
+	document.onclick = whisper.hook;
 }());
 
 
