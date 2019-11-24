@@ -22,7 +22,9 @@
 const resource = {
 	menu_name: "menu",
 	toggle_name: "toggle",
-	title: "Exiletrade"
+	title: "Exiletrade",
+	poe_title: "Path of Exile",
+	whisper_btn: "btn btn-default whisper-btn active"
 };
 
 
