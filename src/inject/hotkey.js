@@ -34,7 +34,6 @@ function register(name, sequence, func)
 	else {
 		alert("Cannot register global hotkey " + sequence);
 	}
-	console.log(keymap);
 };
 
 
