@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+  <style>
+    
+    div.et-menu
+    {
+	padding-bottom: 5px;
+    }
+    
+    .et-keyedit
+    {
+	text-align: center;
+    	width: 100px;
+    }
+    
+    div.et-menu label
+    {
+	display: block;
+	float: left;
+	width: 80px;
+	height: 15px;
+    }
+    
+  </style>
+
+  <div class="et-menu">
+    <label>Settings</label>
+    <input id="et-key-menu" class="et-keyedit" type="text">
+  </div>
+  
+  <div class="et-menu">
+    <label>Hide/Show</label>
+    <input id="et-key-toggle_show" class="et-keyedit" type="text">
+  </div>
+
+  
+  <script>
+
+    const ipc = require("electron").ipcRenderer;
+    const resource = require("./resource.js");
+    const hotkey = require("./hotkey.js");
+
+    function keyboard_listener(name)
+    {
+	return function (event)
+	{
+	    let sequence = "";
+
+	    // skip event, if keyCode equals alt, ctrl, shift, meta
+	    if ((15 < event.keyCode && event.keyCode < 19)
+    		|| event.key == "Meta") {
+    		return;
+    	    }
+	    
+    	    if (event.shiftKey) { sequence += "Shift+"; }
+    	    if (event.ctrlKey) { sequence += "Ctrl+"; }
+    	    if (event.altKey) { sequence += "Alt+"; }
+	    
+    	    sequence += event.key.toUpperCase();
+	    
+    	    ipc.send(hotkey.add_msg(), name, sequence);
+
+    	};
+    }
+    
+    function connect_input(field, name)
+    {
+	field.addEventListener("keydown", keyboard_listener(name));
+
+	field.addEventListener("keyup", () => { field.blur(); });
+
+	ipc.on(hotkey.registered_msg(name),
+	       function (e, sequence)
+	       {
+		   field.value = sequence;
+	       });
+    }
+    
+    connect_input(document.getElementById("et-key-menu"),
+		  resource.menu_name);
+    
+    connect_input(document.getElementById("et-key-toggle_show"),
+		  resource.toggle_name);
+
+  </script>
+</html>

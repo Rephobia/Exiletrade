@@ -20,7 +20,7 @@
 
 
 const hotkey = require("./hotkey.js");
-const menu = require("./settings.js");
+const menu = require("./menu.js");
 const whisper = require("./whisper.js");
 const resource = require("./resource.js");
 
@@ -29,8 +29,6 @@ const windowman = require("windowman");
 (function main()
 {
 	document.title = resource.title;
-
-	console.log(resource.toggle_name, resource.menu_name);
 	
 	hotkey.register(resource.toggle_name, "Alt+F", () =>
 	                {
