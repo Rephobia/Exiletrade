@@ -19,48 +19,53 @@
  */
 
 
-(function () {
 
-	const electron = require("electron").remote;
-	
-	const hotkey = require("./hotkey.js");
-	
-	const path = require("path");
-	const url = require("url");
-	
-	let menu;
-	
-	hotkey.register("settings", "Ctrl+X", toggle_menu);
+const electron = require("electron").remote;
 
-	function toggle_menu ()
-	{
-		if (menu != null) {
-			menu.close();
-			return;
-		}
+const hotkey = require("./hotkey.js");
+const resource = require("./resource.js");
 
-		menu = new electron.BrowserWindow({ width: 250, height: 150, alwaysOnTop: true,
-		                           webPreferences: {
-			                           nodeIntegration: true
-		                           }});
+const path = require("path");
+const url = require("url");
 
-		menu.loadURL(url.format({ pathname: path.join(__dirname, "settings.html"),
-		                          protocol: "file:",
-		                          slashes:true
-		                        }));
-		
-		menu.on("closed", () => { menu = null; });
 
-		menu.webContents.on("dom-ready", () => {
-			menu.send("keyedit:registered_settings", hotkey.sequence_by_name("settings"));
-			menu.send("keyedit:registered_toggle_show", hotkey.sequence_by_name("toggle_show"));
-		});
+let menu;
+
+function show()
+{
+	if (menu != null) {
+		menu.close();
+		return;
 	}
 
-	electron.ipcMain.on("keyedit:add",
-	                    function(event, sequence)
-	                    {
-		                    hotkey.change_sequence(sequence.name, sequence.string);
-		                    event.sender.send("keyedit:registered_" + sequence.name, sequence.string);
-	                    });
-}());
+	menu = new electron.BrowserWindow({ width: 250, height: 150, alwaysOnTop: true,
+	                                    webPreferences: {
+		                                    nodeIntegration: true
+	                                    }});
+
+	menu.loadURL(url.format({ pathname: path.join(__dirname, "settings.html"),
+	                          protocol: "file:",
+	                          slashes:true
+	                        }));
+	
+	menu.on("closed", () => { menu = null; });
+
+	menu.webContents.on("dom-ready", () => {
+		
+		menu.send(hotkey.registered_msg(resource.menu_name),
+		          hotkey.sequence_by_name(resource.menu_name));
+		
+		menu.send(hotkey.registered_msg(resource.toggle_name),
+		          hotkey.sequence_by_name(resource.toggle_name));
+	});
+}
+
+electron.ipcMain.on(hotkey.add_msg(),
+                    function(event, name, sequence)
+                    {
+	                    hotkey.change_sequence(name, sequence);
+	                    
+	                    event.sender.send(hotkey.registered_msg(name), sequence);
+                    });
+
+module.exports.show = show;

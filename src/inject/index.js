@@ -18,25 +18,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 const hotkey = require("./hotkey.js");
 const menu = require("./settings.js");
 const whisper = require("./whisper.js");
+const resource = require("./resource.js");
 
 const windowman = require("windowman");
 
-const trade_title = "Exiletrade";
-
-
 (function main()
 {
-	document.title = trade_title;
+	document.title = resource.title;
+
+	console.log(resource.toggle_name, resource.menu_name);
 	
-	hotkey.register("toggle_show", "Alt+F", () =>
-	                 {
-		                 windowman.toggle_show(trade_title);
-	                 });
-
-
+	hotkey.register(resource.toggle_name, "Alt+F", () =>
+	                {
+		                windowman.toggle_show(resource.title);
+	                });
+	
+	hotkey.register(resource.menu_name, "Ctrl+X", menu.show);
 }());
 
 

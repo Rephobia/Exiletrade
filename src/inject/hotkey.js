@@ -34,6 +34,7 @@ function register(name, sequence, func)
 	else {
 		alert("Cannot register global hotkey " + sequence);
 	}
+	console.log(keymap);
 };
 
 
@@ -57,6 +58,32 @@ function sequence_by_name(name)
 };
 
 
+
+function add_msg()
+{
+	const msg = "add";
+	
+	return function ()
+	{
+		return msg;
+	};
+}
+
+
+function registered_msg()
+{
+	const msg = "registered_";
+	
+	return function (name)
+	{
+		return msg + name;
+	};
+};
+
+
 module.exports.register = register;
 module.exports.change_sequence = change_sequence;
 module.exports.sequence_by_name = sequence_by_name;
+module.exports.add_msg = add_msg();
+module.exports.registered_msg = registered_msg();
+
