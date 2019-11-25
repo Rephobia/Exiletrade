@@ -20,42 +20,56 @@
 
 
 const electron = require("electron").remote;
+const resource = require("./resource.js").resource;
+const resource_change_key = require("./resource.js").change_key;
+
 
 var keymap = {};
 
 
 function register(name, sequence, func)
 {
-	const rc = electron.globalShortcut.register(sequence, func);
-	
-	if (rc) {
+	const result = electron.globalShortcut.register(sequence, func);
+
+	if (result && resource_change_key(name, sequence)) {
+
 		keymap[name] = { sequence: sequence, func: func };
+		
 	}
 	else {
 		alert("Cannot register global hotkey " + sequence);
+		result = false;
 	}
+	return result;
 };
 
 
 function change_sequence(name, sequence)
 {
+	let result = false;
+	
 	if (name in keymap) {
-		let item = keymap[name];
-		register(item.name, sequence, item.func);
-		electron.globalShortcut.unregister(item.sequence, item.func);
-		item.sequence = sequence;
+		
+		let oldkey = keymap[name];
+		
+		if (register(name, sequence, oldkey.func)) {
+			electron.globalShortcut.unregister(oldkey.sequence, oldkey.func);
+			oldkey.sequence = sequence;
+			result = true;
+		}
 	}
 	else {
 		alert(name + " doesn't exist in keymap");
 	}
+	
+	return result;
 };
 
 
-function sequence_by_name(name)
+function get_sequence(name)
 {
 	return keymap[name].sequence;
 };
-
 
 
 function add_msg()
@@ -82,7 +96,7 @@ function registered_msg()
 
 module.exports.register = register;
 module.exports.change_sequence = change_sequence;
-module.exports.sequence_by_name = sequence_by_name;
+module.exports.get_sequence = get_sequence;
 module.exports.add_msg = add_msg();
 module.exports.registered_msg = registered_msg();
 
