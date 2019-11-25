@@ -24,23 +24,19 @@ const windowman = require("windowman");
 const hotkey = require("./hotkey.js");
 const menu = require("./menu.js");
 const whisper = require("./whisper.js");
-const resource = require("./resource.js");
-
-
-
+const resource = require("./resource.js").resource;
 
 
 (function main()
 {
 	document.title = resource.title;
 
-	hotkey.register(resource.toggle_name, resource.toggle_key, () =>
+	hotkey.register(resource.toggle.name, resource.toggle.sequence, () =>
 	                {
 		                windowman.toggle_show(resource.title);
 	                });
 	
-	hotkey.register(resource.menu_name, resource.menu_key, menu.show);
-
+	hotkey.register(resource.menu.name, resource.menu.sequence, menu.show);
 
 	document.onclick = whisper.hook;
 }());

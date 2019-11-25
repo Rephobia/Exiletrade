@@ -23,7 +23,7 @@
 const electron = require("electron").remote;
 
 const hotkey = require("./hotkey.js");
-const resource = require("./resource.js");
+const resource = require("./resource.js").resource;
 
 const path = require("path");
 const url = require("url");
@@ -51,21 +51,22 @@ function show()
 	menu.on("closed", () => { menu = null; });
 
 	menu.webContents.on("dom-ready", () => {
+
+		menu.send(hotkey.registered_msg(resource.menu.name),
+		          hotkey.get_sequence(resource.menu.name));
 		
-		menu.send(hotkey.registered_msg(resource.menu_name),
-		          hotkey.sequence_by_name(resource.menu_name));
-		
-		menu.send(hotkey.registered_msg(resource.toggle_name),
-		          hotkey.sequence_by_name(resource.toggle_name));
+		menu.send(hotkey.registered_msg(resource.toggle.name),
+		          hotkey.get_sequence(resource.toggle.name));
 	});
 }
 
 electron.ipcMain.on(hotkey.add_msg(),
                     function(event, name, sequence)
                     {
-	                    hotkey.change_sequence(name, sequence);
-	                    
-	                    event.sender.send(hotkey.registered_msg(name), sequence);
+	                    if (hotkey.change_sequence(name, sequence)) {
+
+		                    event.sender.send(hotkey.registered_msg(name), sequence);
+	                    }
                     });
 
 module.exports.show = show;

@@ -21,7 +21,7 @@
 
 const windowman = require("windowman");
 const sender = require("node-key-sender");
-const resource = require("./resource.js");
+const resource = require("./resource.js").resource;
 
 
 function hook(event)

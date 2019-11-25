@@ -27,14 +27,18 @@ var resource = {
 	title: "Exiletrade",
 	poe_title: "Path of Exile",
 	whisper_btn: "btn btn-default whisper-btn active",
-	menu_name: "menu",
-	toggle_name: "toggle",
-	toggle_key: "Alt+F",
-	menu_key: "Alt+S"
+	toggle: {name: "toggle", sequence: "Alt+F"},
+	menu: {name: "menu", sequence: "Alt+S"}
 };
 
 
 const file_name = "exiletrade.json";
+const indent_size = 4;
+
+
+// find_missing iterates resource keys,
+// if object[resource.key] is missing in the object,
+// the key is added to the object
 
 function find_missing(object)
 {
@@ -49,7 +53,44 @@ function find_missing(object)
 };
 
 
-(function () {
+function update_file(new_object, old_object)
+{
+	try {
+		let string = JSON.stringify(new_object, null, indent_size);
+		let filepath = path.join(__dirname, file_name);
+		fs.writeFileSync(filepath, string, "utf8");
+		old_object = new_object;
+	}
+	catch (err) {
+		console.log(err);
+		throw err;
+	}
+}
+
+
+function change_key(name, sequence)
+{
+	let result = false;
+	
+	if (name in resource) {
+
+		if (resource[name].sequence == sequence) {
+			return true;
+		}
+		
+		let tmp = resource;
+		tmp[name] = {name: name, sequence: sequence};
+		
+		update_file(tmp, resource);
+		
+		result = true;
+	}
+
+	return result;
+};
+
+
+(function read_resource() {
 	
 	try {
 		let file = fs.readFileSync(path.join(__dirname, file_name), "utf8");
@@ -72,4 +113,5 @@ function find_missing(object)
 }());
 
 
-module.exports = resource;
+module.exports.resource = resource;
+module.exports.change_key = change_key;

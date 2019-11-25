@@ -38,7 +38,7 @@
   <script>
 
     const ipc = require("electron").ipcRenderer;
-    const resource = require("./resource.js");
+    const resource = require("./resource.js").resource;
     const hotkey = require("./hotkey.js");
 
     function keyboard_listener(name)
@@ -78,10 +78,10 @@
     }
     
     connect_input(document.getElementById("et-key-menu"),
-		  resource.menu_name);
+		  resource.menu.name);
     
     connect_input(document.getElementById("et-key-toggle_show"),
-		  resource.toggle_name);
+		  resource.toggle.name);
 
   </script>
 </html>
