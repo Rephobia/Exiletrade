@@ -44,9 +44,12 @@ void winapi_switch(struct param* param, HWND window)
 
 void winapi_toggle(struct param* param, HWND window)
 {
-	IsIconic(window) == TRUE
-		? ShowWindow(window, SW_RESTORE)
-		: ShowWindow(window, SW_MINIMIZE);
+	if (IsWindowVisible(window) == TRUE) {
+		ShowWindow(window, SW_HIDE);
+	}
+	else {
+		ShowWindow(window, SW_SHOW);
+	}
 }
 
 BOOL CALLBACK enum_windows_cb(HWND window, const LPARAM lParam)
