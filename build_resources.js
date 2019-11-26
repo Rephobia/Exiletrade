@@ -30,6 +30,8 @@ const options = {
 	out: 'build',
 	inject : injections,
 	alwaysOnTop : true,
+	tray: true,
+	singleInstance: true
 };
 
 
