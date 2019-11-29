@@ -14,5 +14,8 @@
     },
     "author": "Roman Erdyakov",
     "license": "GPL-3.0-or-later",
- 
+ ,
+    "devDependencies": {
+        "gulp-replace": "^1.0.0"
+    }
 }
