@@ -29,7 +29,7 @@ var keymap = {};
 
 function register(name, sequence, func)
 {
-	const result = electron.globalShortcut.register(sequence, func);
+	let result = electron.globalShortcut.register(sequence, func);
 
 	if (result && resource_change_key(name, sequence)) {
 
