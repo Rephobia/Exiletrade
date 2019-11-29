@@ -108,6 +108,24 @@ function copy_code(gulp, resources)
 }
 
 
+function replace_hide(gulp, resources)
+{
+	const task = function (done)
+	{
+		let dst = __dirname + "/" + resources.get_path() + "/resources/app/lib/";
+		var replace = require('gulp-replace');
+		
+		gulp.src([dst + "/main.js"])
+			.pipe(replace("hide()", "minimize()"))
+			.pipe(gulp.dest(dst))
+			.on("end", end_task(done, "replace hide DONE"));
+
+	};
+	
+	return task;
+}
+
+
 (function main()
 {
 	const gulp = require("gulp");
@@ -116,7 +134,8 @@ function copy_code(gulp, resources)
 	const runner = gulp.series(build_nativefier(gulp, resources),
 	                           install_dependencies(gulp),
 	                           copy_dependencies(gulp, resources),
-	                           copy_code(gulp, resources));
+	                           copy_code(gulp, resources),
+	                           replace_hide(gulp, resources));
 	runner();
 }());
 
