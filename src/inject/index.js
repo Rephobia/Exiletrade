@@ -39,6 +39,9 @@ const resource = require("./resource.js").resource;
 	hotkey.register(resource.menu.name, resource.menu.sequence, menu.show);
 
 	document.onclick = whisper.hook;
+
+	windowman.toggle_show(resource.title);
+	
 }());
 
 
