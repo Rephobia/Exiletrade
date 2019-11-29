@@ -32,7 +32,7 @@ const options = {
 	alwaysOnTop : true,
 	tray: true,
 	singleInstance: true,
-	hideWindowFrame: true,
+	hideWindowFrame: true
 };
 
 
