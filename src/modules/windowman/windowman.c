@@ -44,11 +44,11 @@ void winapi_switch(struct param* param, HWND window)
 
 void winapi_toggle(struct param* param, HWND window)
 {
-	if (IsWindowVisible(window) == TRUE) {
+	if (IsWindowVisible(window) == TRUE && !(IsIconic(window) == TRUE)) {
 		ShowWindow(window, SW_HIDE);
 	}
 	else {
-		ShowWindow(window, SW_SHOW);
+		ShowWindow(window, SW_RESTORE);
 	}
 }
 

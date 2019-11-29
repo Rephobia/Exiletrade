@@ -17,5 +17,8 @@
     "repository": {
         "type": "git",
         "url": "https://gitlab.com/DoomerRoman/Exiletrade"
+    },
+    "devDependencies": {
+        "gulp-replace": "^1.0.0"
     }
 }
