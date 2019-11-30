@@ -27,6 +27,7 @@ var resource = {
 	title: "Exiletrade",
 	poe_title: "Path of Exile",
 	whisper_btn: "btn btn-default whisper-btn active",
+	exchange_btn: "form-control",
 	toggle: {name: "toggle", sequence: "Alt+F"},
 	settings: {name: "settings", sequence: "Alt+S"}
 };
