@@ -101,7 +101,7 @@ function copy_code(gulp, resources)
 
 		gulp.src(source, {"ignore":["./src/inject/index.js"], follow: true, convertToFile: true})
 			.pipe(gulp.dest(destination))
-			.on("end", end_task(done, "Copy html DONE"));
+			.on("end", end_task(done, "Copy code DONE"));
 	};
 	
 	return task;
@@ -118,7 +118,7 @@ function replace_hide(gulp, resources)
 		gulp.src([dst + "/main.js"])
 			.pipe(replace("hide()", "minimize()"))
 			.pipe(gulp.dest(dst))
-			.on("end", end_task(done, "replace hide DONE"));
+			.on("end", end_task(done, "Replace hide DONE"));
 
 	};
 	
