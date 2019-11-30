@@ -22,26 +22,43 @@
 const windowman = require("windowman");
 
 const hotkey = require("./hotkey.js");
-const menu = require("./menu.js");
+const settings = require("./settings.js");
 const whisper = require("./whisper.js");
 const resource = require("./resource.js").resource;
 
+const fs = require("fs");
+const path = require("path");
+
+
+function make_control_panel()
+{
+	let div = document.createElement("div");
+	let cp = fs.readFileSync(path.join(__dirname, "control_panel.html"), "utf8");
+	div.innerHTML = cp;
+	document.body.prepend(div);
+	
+	let settings_btn = document.getElementById("et-settings-button");
+	settings_btn.addEventListener("click", () => { settings.show(); });	
+}
 
 (function main()
-{
-	document.title = resource.title;
+ {
+	 try {
+		 document.title = resource.title;
 
-	hotkey.register(resource.toggle.name, resource.toggle.sequence, () =>
-	                {
-		                windowman.toggle_show(resource.title);
-	                });
-	
-	hotkey.register(resource.menu.name, resource.menu.sequence, menu.show);
+		 hotkey.register(resource.toggle.name, resource.toggle.sequence, () =>
+		                 {
+			                 windowman.toggle_show(resource.title);
+		                 });
+		 
+		 hotkey.register(resource.settings.name, resource.settings.sequence, settings.show);
 
-	document.onclick = whisper.hook;
-
-	windowman.toggle_show(resource.title);
-	
-}());
-
-
+		 document.onclick = whisper.hook;
+		 
+		 make_control_panel();
+	 }
+	 catch (err) {
+		 console.log(err);
+	 }
+	 
+ }());
