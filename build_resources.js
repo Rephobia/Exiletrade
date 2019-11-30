@@ -31,8 +31,7 @@ const options = {
 	inject : injections,
 	alwaysOnTop : true,
 	tray: true,
-	singleInstance: true,
-	hideWindowFrame: true
+	singleInstance: true
 };
 
 

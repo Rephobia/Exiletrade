@@ -29,33 +29,33 @@ const path = require("path");
 const url = require("url");
 
 
-let menu;
+let settings;
 
 function show()
 {
-	if (menu != null) {
-		menu.close();
+	if (settings != null) {
+		settings.close();
 		return;
 	}
 
-	menu = new electron.BrowserWindow({ width: 250, height: 150, alwaysOnTop: true,
+	settings = new electron.BrowserWindow({ width: 250, height: 150, alwaysOnTop: true,
 	                                    webPreferences: {
 		                                    nodeIntegration: true
 	                                    }});
 
-	menu.loadURL(url.format({ pathname: path.join(__dirname, "menu.html"),
+	settings.loadURL(url.format({ pathname: path.join(__dirname, "settings.html"),
 	                          protocol: "file:",
 	                          slashes:true
 	                        }));
 	
-	menu.on("closed", () => { menu = null; });
+	settings.on("closed", () => { settings = null; });
 
-	menu.webContents.on("dom-ready", () => {
+	settings.webContents.on("dom-ready", () => {
 
-		menu.send(hotkey.registered_msg(resource.menu.name),
-		          hotkey.get_sequence(resource.menu.name));
+		settings.send(hotkey.registered_msg(resource.settings.name),
+		          hotkey.get_sequence(resource.settings.name));
 		
-		menu.send(hotkey.registered_msg(resource.toggle.name),
+		settings.send(hotkey.registered_msg(resource.toggle.name),
 		          hotkey.get_sequence(resource.toggle.name));
 	});
 }

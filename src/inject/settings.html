@@ -3,7 +3,7 @@
 
   <style>
     
-    div.et-menu
+    div.et-settings
     {
 	padding-bottom: 5px;
     }
@@ -14,7 +14,7 @@
     	width: 100px;
     }
     
-    div.et-menu label
+    div.et-settings label
     {
 	display: block;
 	float: left;
@@ -24,12 +24,12 @@
     
   </style>
 
-  <div class="et-menu">
+  <div class="et-settings">
     <label>Settings</label>
-    <input id="et-key-menu" class="et-keyedit" type="text">
+    <input id="et-key-settings" class="et-keyedit" type="text">
   </div>
   
-  <div class="et-menu">
+  <div class="et-settings">
     <label>Hide/Show</label>
     <input id="et-key-toggle_show" class="et-keyedit" type="text">
   </div>
@@ -77,8 +77,8 @@
 	       });
     }
     
-    connect_input(document.getElementById("et-key-menu"),
-		  resource.menu.name);
+    connect_input(document.getElementById("et-key-settings"),
+		  resource.settings.name);
     
     connect_input(document.getElementById("et-key-toggle_show"),
 		  resource.toggle.name);
