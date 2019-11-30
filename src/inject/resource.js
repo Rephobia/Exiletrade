@@ -28,7 +28,7 @@ var resource = {
 	poe_title: "Path of Exile",
 	whisper_btn: "btn btn-default whisper-btn active",
 	toggle: {name: "toggle", sequence: "Alt+F"},
-	menu: {name: "menu", sequence: "Alt+S"}
+	settings: {name: "settings", sequence: "Alt+S"}
 };
 
 
