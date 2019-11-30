@@ -26,7 +26,9 @@ const resource = require("./resource.js").resource;
 
 function hook(event)
 {
-	if (event.target.className == resource.whisper_btn) {
+
+	if (event.target.className == resource.whisper_btn ||
+	    event.target.className == resource.exchange_btn) {
 
 		if (windowman.set_focus(resource.poe_title)) {
 			
