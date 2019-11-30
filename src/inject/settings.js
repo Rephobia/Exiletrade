@@ -39,24 +39,24 @@ function show()
 	}
 
 	settings = new electron.BrowserWindow({ width: 250, height: 150, alwaysOnTop: true,
-	                                    webPreferences: {
-		                                    nodeIntegration: true
-	                                    }});
+	                                        webPreferences: {
+		                                        nodeIntegration: true
+	                                        }});
 
 	settings.loadURL(url.format({ pathname: path.join(__dirname, "settings.html"),
-	                          protocol: "file:",
-	                          slashes:true
-	                        }));
+	                              protocol: "file:",
+	                              slashes:true
+	                            }));
 	
 	settings.on("closed", () => { settings = null; });
 
 	settings.webContents.on("dom-ready", () => {
 
 		settings.send(hotkey.registered_msg(resource.settings.name),
-		          hotkey.get_sequence(resource.settings.name));
+		              hotkey.get_sequence(resource.settings.name));
 		
 		settings.send(hotkey.registered_msg(resource.toggle.name),
-		          hotkey.get_sequence(resource.toggle.name));
+		              hotkey.get_sequence(resource.toggle.name));
 	});
 }
 
