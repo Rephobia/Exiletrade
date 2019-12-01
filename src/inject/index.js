@@ -52,6 +52,7 @@ const resource = require("./resource.js").resource;
 		                 {
 			                 if (mainwindow.isVisible()) {
 				                 mainwindow.hide();
+				                 settings.close();
 			                 }
 			                 else {
 				                 mainwindow.show();
