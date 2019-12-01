@@ -29,7 +29,7 @@ var keymap = {};
 
 function register(name, sequence, func)
 {
-	electron.globalShortcut.unregister(sequence, func);
+	electron.globalShortcut.unregister(sequence);
 	let result = electron.globalShortcut.register(sequence, func);
 
 	if (result && resource_change_key(name, sequence)) {
@@ -48,7 +48,16 @@ function register(name, sequence, func)
 function change_sequence(name, sequence)
 {
 	if (name in keymap) {
-		return register(name, sequence, keymap[name].func);
+		
+		let old = keymap[name];
+				
+		let result = register(name, sequence, old.func);
+		
+		if (result) {
+			electron.globalShortcut.unregister(old.sequence);			
+		}
+		
+		return result;
 	}
 	else {
 		alert(name + " doesn't exist in keymap");
