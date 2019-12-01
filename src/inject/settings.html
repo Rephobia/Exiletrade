@@ -22,71 +22,80 @@
 	text-align: left;
 	display: inline-block;
     }
-    
+        
   </style>
   
   <head>
-    <title>Settings</title>
+    <title>Exiletrade settings</title>
   </head>
-  
-  <div class="et-settings">
-    <label>Settings</label>
-    <input id="et-key-settings" type="text">
-  </div>
-  
-  <div class="et-settings">
-    <label>Hide/Show</label>
-    <input id="et-key-toggle_show" type="text">
-  </div>
-
-  
-  <script>
-
-    const ipc = require("electron").ipcRenderer;
-    const resource = require("./resource.js").resource;
-    const hotkey = require("./hotkey.js");
-
-    function keyboard_listener(name)
-    {
-	return function (event)
-	{
-	    let sequence = "";
-
-	    // skip event, if keyCode equals alt, ctrl, shift, meta
-	    if ((15 < event.keyCode && event.keyCode < 19)
-    		|| event.key == "Meta") {
-    		return;
-    	    }
-	    
-    	    if (event.shiftKey) { sequence += "Shift+"; }
-    	    if (event.ctrlKey) { sequence += "Ctrl+"; }
-    	    if (event.altKey) { sequence += "Alt+"; }
-	    
-    	    sequence += event.key.toUpperCase();
-	    
-    	    ipc.send(hotkey.add_msg(), name, sequence);
-
-    	};
-    }
+  <body>
+    <div class="et-settings">
+      <label>Settings</label>
+      <input id="et-key-settings" type="text">
+    </div>
     
-    function connect_input(field, name)
-    {
-	field.addEventListener("keydown", keyboard_listener(name));
+    <div class="et-settings">
+      <label>Hide/Show</label>
+      <input id="et-key-toggle_show" type="text">
+    </div>
+  <body>
+  
+    <script>
+      
+      const ipc = require("electron").ipcRenderer;
+      const resource = require("./resource.js").resource;
+      const hotkey = require("./hotkey.js");
 
-	field.addEventListener("keyup", () => { field.blur(); });
+      const titlebar = require("custom-electron-titlebar");
 
-	ipc.on(hotkey.registered_msg(name),
-	       function (e, sequence)
-	       {
-		   field.value = sequence;
-	       });
-    }
-    
-    connect_input(document.getElementById("et-key-settings"),
-		  resource.settings.name);
-    
-    connect_input(document.getElementById("et-key-toggle_show"),
-		  resource.toggle.name);
+      new titlebar.Titlebar({
+	  backgroundColor: titlebar.Color.fromHex(resource.title_color),
+	  menu: null,
+	  titleHorizontalAlignment: "left"
+      });
 
-  </script>
+      
+      function keyboard_listener(name)
+      {
+	  return function (event)
+	  {
+	      let sequence = "";
+
+	      // skip event, if keyCode equals alt, ctrl, shift, meta
+	      if ((15 < event.keyCode && event.keyCode < 19)
+    		  || event.key == "Meta") {
+    		  return;
+    	      }
+	      
+    	      if (event.shiftKey) { sequence += "Shift+"; }
+    	      if (event.ctrlKey) { sequence += "Ctrl+"; }
+    	      if (event.altKey) { sequence += "Alt+"; }
+	      
+    	      sequence += event.key.toUpperCase();
+	      
+    	      ipc.send(hotkey.add_msg(), name, sequence);
+
+    	  };
+      }
+      
+      function connect_input(field, name)
+      {
+	  field.addEventListener("keydown", keyboard_listener(name));
+
+	  field.addEventListener("keyup", () => { field.blur(); });
+
+	  ipc.on(hotkey.registered_msg(name),
+		 function (e, sequence)
+		 {
+		     field.value = sequence;
+		 });
+      }
+      
+      connect_input(document.getElementById("et-key-settings"),
+		    resource.settings.name);
+      
+      connect_input(document.getElementById("et-key-toggle_show"),
+		    resource.toggle.name);
+
+    </script>
 </html>

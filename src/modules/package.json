@@ -4,7 +4,8 @@
     "dependencies": {
         "node-key-sender": "^1.0.11",
 	"iohook": "^0.6.1",
-        "windowman": "file:./windowman/"
+        "windowman": "file:./windowman/",
+	"custom-electron-titlebar": "^3.1.0"
     },
     "iohook": {
 	"targets": [
