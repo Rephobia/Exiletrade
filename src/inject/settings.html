@@ -1,87 +1,115 @@
 <!DOCTYPE html>
 <html>
-
+ 
+  
   <style>
+    body
+    {
+	background-color: #222222; 
+    }
     
     div.et-settings
     {
-	padding-bottom: 5px;
+	padding: 5px;
+	text-align: center;
     }
     
-    .et-keyedit
+    div.et-settings input
     {
 	text-align: center;
-    	width: 100px;
+	background-color: #444444;
+	color: #ffffff;
+        width: 100px;
+	border: none;
+    }
+    div.et-settings input:focus
+    {
+	outline: none !important;
+	border: 1px solid #666666;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
     }
     
     div.et-settings label
     {
-	display: block;
-	float: left;
-	width: 80px;
-	height: 15px;
+	color: #ffffff;
+	min-width: 80px;
+	text-align: left;
+	display: inline-block;
     }
-    
+   
   </style>
-
-  <div class="et-settings">
-    <label>Settings</label>
-    <input id="et-key-settings" class="et-keyedit" type="text">
-  </div>
   
-  <div class="et-settings">
-    <label>Hide/Show</label>
-    <input id="et-key-toggle_show" class="et-keyedit" type="text">
-  </div>
-
+  <head>
+    <title>Exiletrade</title>
+  </head>
+  <body>
+    <div class="et-settings">
+      <label>Settings</label>
+      <input id="et-key-settings" type="text">
+    </div>
+    
+    <div class="et-settings">
+      <label>Hide/Show</label>
+      <input id="et-key-toggle_show" type="text">
+    </div>
+  <body>
   
-  <script>
+    <script>
+      
+      const ipc = require("electron").ipcRenderer;
+      const resource = require("./resource.js").resource;
+      const hotkey = require("./hotkey.js");
 
-    const ipc = require("electron").ipcRenderer;
-    const resource = require("./resource.js").resource;
-    const hotkey = require("./hotkey.js");
+      const titlebar = require("custom-electron-titlebar");
 
-    function keyboard_listener(name)
-    {
-	return function (event)
-	{
-	    let sequence = "";
+      new titlebar.Titlebar({
+	  backgroundColor: titlebar.Color.fromHex("#222222"),
+	  menu: null,
+	  titleHorizontalAlignment: "left"
+      });
 
-	    // skip event, if keyCode equals alt, ctrl, shift, meta
-	    if ((15 < event.keyCode && event.keyCode < 19)
-    		|| event.key == "Meta") {
-    		return;
-    	    }
-	    
-    	    if (event.shiftKey) { sequence += "Shift+"; }
-    	    if (event.ctrlKey) { sequence += "Ctrl+"; }
-    	    if (event.altKey) { sequence += "Alt+"; }
-	    
-    	    sequence += event.key.toUpperCase();
-	    
-    	    ipc.send(hotkey.add_msg(), name, sequence);
+      
+      function keyboard_listener(name)
+      {
+	  return function (event)
+	  {
+	      let sequence = "";
 
-    	};
-    }
-    
-    function connect_input(field, name)
-    {
-	field.addEventListener("keydown", keyboard_listener(name));
+	      // skip event, if keyCode equals alt, ctrl, shift, meta
+	      if ((15 < event.keyCode && event.keyCode < 19)
+    		  || event.key == "Meta") {
+    		  return;
+    	      }
+	      
+    	      if (event.shiftKey) { sequence += "Shift+"; }
+    	      if (event.ctrlKey) { sequence += "Ctrl+"; }
+    	      if (event.altKey) { sequence += "Alt+"; }
+	      
+    	      sequence += event.key.toUpperCase();
+	      
+    	      ipc.send(hotkey.add_msg(), name, sequence);
 
-	field.addEventListener("keyup", () => { field.blur(); });
+    	  };
+      }
+      
+      function connect_input(field, name)
+      {
+	  field.addEventListener("keydown", keyboard_listener(name));
 
-	ipc.on(hotkey.registered_msg(name),
-	       function (e, sequence)
-	       {
-		   field.value = sequence;
-	       });
-    }
-    
-    connect_input(document.getElementById("et-key-settings"),
-		  resource.settings.name);
-    
-    connect_input(document.getElementById("et-key-toggle_show"),
-		  resource.toggle.name);
+	  field.addEventListener("keyup", () => { field.blur(); });
 
-  </script>
+	  ipc.on(hotkey.registered_msg(name),
+		 function (e, sequence)
+		 {
+		     field.value = sequence;
+		 });
+      }
+      
+      connect_input(document.getElementById("et-key-settings"),
+		    resource.settings.name);
+      
+      connect_input(document.getElementById("et-key-toggle_show"),
+		    resource.toggle.name);
+
+    </script>
 </html>
