@@ -37,7 +37,7 @@ function show()
 		return;
 	}
 
-	settings = new electron.BrowserWindow({ width: 250, height: 110, alwaysOnTop: true,
+	settings = new electron.BrowserWindow({ width: 250, height: 100, alwaysOnTop: true,
 	                                        autoHideMenuBar: true,
 	                                        frame: false,
 	                                        webPreferences: {
