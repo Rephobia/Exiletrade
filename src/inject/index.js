@@ -19,7 +19,6 @@
  */
 
 
-const windowman = require("windowman");
 const customTitlebar = require("custom-electron-titlebar");
 const remote = require("electron").remote;
 
@@ -32,6 +31,9 @@ const resource = require("./resource.js").resource;
 (function main()
  {
 	 try {
+
+		 let mainwindow = remote.getCurrentWindow();
+		 
 		 const menu = new remote.Menu();
 		 menu.append(new remote.MenuItem({
 			 label: "Settings",
@@ -48,7 +50,12 @@ const resource = require("./resource.js").resource;
 		 
 		 hotkey.register(resource.toggle.name, resource.toggle.sequence, () =>
 		                 {
-			                 windowman.toggle_show(resource.title);
+			                 if (mainwindow.isVisible()) {
+				                 mainwindow.hide();
+			                 }
+			                 else {
+				                 mainwindow.show();
+			                 }
 		                 });
 
 		 hotkey.register(resource.settings.name, resource.settings.sequence, settings.show);
