@@ -28,7 +28,6 @@ const resource = require("./resource.js").resource;
 const path = require("path");
 const url = require("url");
 
-
 let settings;
 
 function show()
@@ -40,6 +39,7 @@ function show()
 
 	settings = new electron.BrowserWindow({ width: 250, height: 110, alwaysOnTop: true,
 	                                        autoHideMenuBar: true,
+	                                        frame: false,
 	                                        webPreferences: {
 		                                        nodeIntegration: true
 	                                        }});

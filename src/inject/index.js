@@ -20,45 +20,42 @@
 
 
 const windowman = require("windowman");
+const customTitlebar = require("custom-electron-titlebar");
+const remote = require("electron").remote;
 
 const hotkey = require("./hotkey.js");
 const settings = require("./settings.js");
 const whisper = require("./whisper.js");
 const resource = require("./resource.js").resource;
 
-const fs = require("fs");
-const path = require("path");
-
-
-function make_control_panel()
-{
-	let div = document.createElement("div");
-	let cp = fs.readFileSync(path.join(__dirname, "control_panel.html"), "utf8");
-	div.innerHTML = cp;
-	document.body.prepend(div);
-	
-	let settings_btn = document.getElementById("et-settings-button");
-	settings_btn.addEventListener("click", () => { settings.show(); });	
-}
 
 (function main()
  {
 	 try {
-		 document.title = resource.title;
+		 const menu = new remote.Menu();
+		 menu.append(new remote.MenuItem({
+			 label: "Settings",
+			 click: () => { settings.show(); }
+		 }));
 
+		 const titlebar = new customTitlebar.Titlebar({
+			 backgroundColor: customTitlebar.Color.fromHex(resource.title_color),
+			 menu: menu,
+			 titleHorizontalAlignment: "right"
+		 });
+
+		 titlebar.updateTitle(resource.title);
+		 
 		 hotkey.register(resource.toggle.name, resource.toggle.sequence, () =>
 		                 {
 			                 windowman.toggle_show(resource.title);
 		                 });
-		 
+
 		 hotkey.register(resource.settings.name, resource.settings.sequence, settings.show);
 
 		 document.onclick = whisper.hook;
-		 
-		 make_control_panel();
 	 }
 	 catch (err) {
 		 console.log(err);
 	 }
-	 
  }());
