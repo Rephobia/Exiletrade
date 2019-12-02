@@ -70,4 +70,12 @@ electron.ipcMain.on(hotkey.add_msg(),
 	                    }
                     });
 
+function close()
+{
+	if (settings != null) {
+		settings.close();
+	}
+}
+
 module.exports.show = show;
+module.exports.close = close;
