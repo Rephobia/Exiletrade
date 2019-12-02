@@ -3,20 +3,8 @@
         "private": true,
     "dependencies": {
         "node-key-sender": "^1.0.11",
-	"iohook": "^0.6.1",
         "windowman": "file:./windowman/",
 	"custom-electron-titlebar": "^3.1.0"
-    },
-    "iohook": {
-	"targets": [
-	    "electron-70"
-	],
-	"platforms": [
-	    "win32"
-	],
-	"arches": [
-	    "x64"
-	]
     },
     "author": "Roman Erdyakov",
     "license": "GPL-3.0-or-later"
