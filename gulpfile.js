@@ -107,6 +107,30 @@ function copy_code(gulp, resources)
 	return task;
 }
 
+
+function remove_abosolute_path(gulp, resources)
+{
+	const task = function (done)
+	{
+		let remover = require("removeNPMAbsolutePaths");
+		let dir = __dirname + "/" + resources.get_path() + "/resources/app/node_modules";
+		remover(dir)
+			.then(results => results.forEach(result => {
+				if (!result.success) {
+					console.log(result.err.message);
+				}
+			}))
+			.then(() => {
+				console.log("Remove-abosolute-path DONE");
+				done();
+			})
+			.catch(err => console.log(err.message));
+	};
+	
+	return task;
+}
+
+
 (function main()
 {
 	const gulp = require("gulp");
@@ -115,7 +139,8 @@ function copy_code(gulp, resources)
 	const runner = gulp.series(build_nativefier(gulp, resources),
 	                           install_dependencies(gulp),
 	                           copy_dependencies(gulp, resources),
-	                           copy_code(gulp, resources));
+	                           copy_code(gulp, resources),
+	                           remove_abosolute_path(gulp, resources));
 	runner();
 }());
 
