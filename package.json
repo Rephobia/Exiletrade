@@ -5,7 +5,6 @@
     "dependencies": {
         "cmake-js": "^6.0.0",
         "gulp": "^4.0.2",
-        "gulp-concat": "^2.6.1",
         "gulp-install": "^1.1.0",
         "nativefier": "^7.7.0",
         "removeNPMAbsolutePaths": "^2.0.0"
@@ -15,8 +14,5 @@
     },
     "author": "Roman Erdyakov",
     "license": "GPL-3.0-or-later",
- ,
-    "devDependencies": {
-        "gulp-replace": "^1.0.0"
-    }
+ 
 }

@@ -58,5 +58,3 @@ module.exports.get_path = function ()
 	}
 	return app_path;
 };
-
-
