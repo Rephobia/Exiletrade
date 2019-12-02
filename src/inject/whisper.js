@@ -38,6 +38,10 @@ function hook(event)
 				.batchTypeKey("enter")
 				.sendBatch();
 		}
+		else {
+			console.log("windowman can't set focus");
+			alert("Can't set focus to Path of Exile. Game is runned?");
+		}
 	}
 };
 
