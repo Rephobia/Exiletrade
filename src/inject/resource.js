@@ -29,7 +29,7 @@ var resource = {
 	whisper_btn: "btn btn-default whisper-btn active",
 	exchange_btn: "form-control",
 	title_color: "#000000",
-	toggle: {name: "toggle", sequence: "Alt+F"},
+	toggle: {name: "toggle", sequence: "Alt+A"},
 	settings: {name: "settings", sequence: "Alt+S"}
 };
 
