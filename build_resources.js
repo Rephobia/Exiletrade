@@ -32,7 +32,10 @@ const options = {
 	alwaysOnTop : true,
 	tray: "start-in-tray",
 	singleInstance: true,
-	hideWindowFrame: true
+	hideWindowFrame: true,
+	browserwindowOptions: {
+		focusable: false
+	}
 };
 
 
