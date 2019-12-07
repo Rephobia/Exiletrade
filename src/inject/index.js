@@ -31,13 +31,16 @@ const resource = require("./resource.js").resource;
 (function main()
  {
 	 try {
-
 		 let mainwindow = remote.getCurrentWindow();
 		 
 		 const menu = new remote.Menu();
 		 menu.append(new remote.MenuItem({
 			 label: "Settings",
 			 click: () => { settings.show(); }
+		 }));
+		 menu.append(new remote.MenuItem({
+			 label: "Console",
+			 click: () => { mainwindow.toggleDevTools(); }
 		 }));
 
 		 const titlebar = new customTitlebar.Titlebar({
