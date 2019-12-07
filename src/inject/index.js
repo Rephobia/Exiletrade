@@ -55,7 +55,7 @@ const resource = require("./resource.js").resource;
 				                 settings.close();
 			                 }
 			                 else {
-				                 mainwindow.show();
+				                 mainwindow.showInactive();
 			                 }
 		                 });
 
