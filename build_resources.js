@@ -20,7 +20,7 @@
 
 
 const injections = [
-	"./build/concatenated.js"
+	"./src/inject/index.js"	
 ];
 
 
@@ -30,6 +30,13 @@ const options = {
 	out: 'build',
 	inject : injections,
 	alwaysOnTop : true,
+	tray: "start-in-tray",
+	singleInstance: true,
+	hideWindowFrame: true,
+	browserwindowOptions: {
+		backgroundColor: "#000000",
+		focusable: false
+	}
 };
 
 
@@ -55,5 +62,3 @@ module.exports.get_path = function ()
 	}
 	return app_path;
 };
-
-

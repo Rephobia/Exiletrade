@@ -19,39 +19,22 @@
  */
 
 
-function concat_init(gulp)
-{	
-	const task =  function (done)
+function end_task(done_callback, message)
+{
+	return function ()
 	{
-		console.log("\n---Concat---\n");
-
-		const end = function ()
-		{
-			console.log("---Concat done---");
-			done();
-		};
+		console.log(message);
 		
-		const gulp_concat = require("gulp-concat");
-		
-		const source = "./src/inject/*.js";
-		const output = "concatenated.js";
-		const destination = "./build/";
-
-		gulp.src(source)
-			.pipe(gulp_concat(output))
-			.pipe(gulp.dest(destination))
-			.on("end", end);
+		done_callback();		
 	};
-	
-	return task;
+
 }
 
 
-function nativefier_init(gulp, resources)
+function build_nativefier(gulp, resources)
 {
 	const task = function (done)
 	{
-		console.log("\n---Build nativefier---\n");
 		const end = function(error, appPath)
 		{
 			if (error) {
@@ -60,7 +43,7 @@ function nativefier_init(gulp, resources)
 			}
 
 			resources.set_path(appPath);
-			console.log("\n---Build nativefier done---\n");
+			console.log("\nBuild nativefier DONE\n");
 			done();
 		};
 		
@@ -72,25 +55,18 @@ function nativefier_init(gulp, resources)
 }
 
 
-function install_init(gulp)
+function install_dependencies(gulp)
 {
 	const task = function (done)
-	{
-		console.log("\n---Install dependencies---\n");
-		
-		const end = function ()
-		{
-			console.log("---Install done---");
-			done();
-		};
-		
+	{				
 		const install = require("gulp-install");
 		const source = __dirname + "/src/modules/**/*";
 		const output = __dirname + "/build/";
 		
 		gulp.src(source)
 			.pipe(gulp.dest(output))
-			.pipe(install({args: ["--no-package-lock"]}, end));
+			.pipe(install({args: ["--no-package-lock"]},
+			              end_task(done, "Install DONE")));
 
 	};
 	
@@ -98,57 +74,73 @@ function install_init(gulp)
 }
 
 
-function copy_init(gulp, resources)
+function copy_dependencies(gulp, resources)
 {
 	const task = function (done)
-	{
-		console.log("\n---Copy dependencies---\n");
-		
-		const end = function ()
-		{
-			console.log("---Copy dependencies done---");
-			done();
-		};
-		
+	{		
 		const source = __dirname + "/build/node_modules/**/*";
 		const destination = __dirname + "/" + resources.get_path() +
 		      "/resources/app/node_modules/";
 		
 		gulp.src(source, { follow: true, convertToFile: true})
 			.pipe(gulp.dest(destination))
-			.on("end", end);
+			.on("end", end_task(done, "Copy dependencies DONE"));
 	};
 	
 	return task;
 }
 
 
-class Builder
-{	
-	constructor(gulp)
-	{
-		this.resources = require("./build_resources.js");
-				
-		this.concat = concat_init(gulp);
-		this.nativefier = nativefier_init(gulp, this.resources);
-		this.install = install_init(gulp);
-		this.copy = copy_init(gulp, this.resources);
-	}
+function copy_code(gulp, resources)
+{
+	const task = function (done)
+	{		
+		const source = "./src/inject/*.*";
+		const destination = __dirname + "/" + resources.get_path() +
+		      "/resources/app/inject/";
+
+		gulp.src(source, {"ignore":["./src/inject/index.js"], follow: true, convertToFile: true})
+			.pipe(gulp.dest(destination))
+			.on("end", end_task(done, "Copy code DONE"));
+	};
+	
+	return task;
 }
 
 
-function main()
+function remove_abosolute_path(gulp, resources)
+{
+	const task = function (done)
+	{
+		let remover = require("removeNPMAbsolutePaths");
+		let dir = __dirname + "/" + resources.get_path() + "/resources/app/node_modules";
+		remover(dir)
+			.then(results => results.forEach(result => {
+				if (!result.success) {
+					console.log(result.err.message);
+				}
+			}))
+			.then(() => {
+				console.log("Remove-abosolute-path DONE");
+				done();
+			})
+			.catch(err => console.log(err.message));
+	};
+	
+	return task;
+}
+
+
+(function main()
 {
 	const gulp = require("gulp");
-	
-	const builder = new Builder (gulp);
-	
-	const runner = gulp.series(builder.concat,
-	                           builder.nativefier,
-	                           builder.install,
-	                           builder.copy);
+	let resources = require("./build_resources.js");
+
+	const runner = gulp.series(build_nativefier(gulp, resources),
+	                           install_dependencies(gulp),
+	                           copy_dependencies(gulp, resources),
+	                           copy_code(gulp, resources),
+	                           remove_abosolute_path(gulp, resources));
 	runner();
-}
+}());
 
-
-main();
