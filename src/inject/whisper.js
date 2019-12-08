@@ -19,26 +19,29 @@
  */
 
 
-{	
-	const poe_title = "Path of Exile";
-	const whisper_btn = "btn btn-default whisper-btn active";
+const windowman = require("windowman");
+const sender = require("node-key-sender");
+const resource = require("./resource.js").resource;
 
-	const windowman = require("windowman");
-	const sender = require("node-key-sender");
 
-	document.onclick = function(e)
-	{
-		if (e.target.className == whisper_btn) {
+function hook(event)
+{
 
-			if (windowman.set_focus(poe_title)) {
-				
-				sender.startBatch()
-					.batchTypeKey("enter")
-					.batchTypeCombination(["control", "v"])
-					.batchTypeKey("enter")
-					.sendBatch();			
-			}
+	if (event.target.className == resource.whisper_btn ||
+	    event.target.className == resource.exchange_btn) {
+
+		if (windowman.set_focus(resource.poe_title)) {
+			
+			sender.startBatch()
+				.batchTypeKey("enter")
+				.batchTypeCombination(["control", "v"])
+				.batchTypeKey("enter")
+				.sendBatch();
 		}
-	};
-	
-}
+		else {
+			console.log("windowman can't set focus");
+		}
+	}
+};
+
+module.exports.hook = hook;
