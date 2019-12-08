@@ -4,8 +4,11 @@ Exiletrade is an overlay wrapper for [https://pathofexile.com/trade](https://pat
 - Click on whisper/contant button sends trade request instantly
 - Hotkey for hide/show (***alt+a*** as default)
 
+Showcase: [https://www.youtube.com/watch?v=yUjVUVAxKTA](https://www.youtube.com/watch?v=yUjVUVAxKTA)
+
 ### How to install
 Download and install Java: [https://java.com/download](https://java.com/download)
+
 Download Exiletrade.zip: [Latest release](https://github.com/DoomerRoman/Exiletrade/releases
 
 ## Building from sources
