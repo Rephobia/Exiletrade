@@ -29,16 +29,40 @@ const path = require("path");
 const url = require("url");
 
 let settings;
+const WIDTH = 250;
+const HEIGHT = 100;
 
-function show()
+// function return x and y coordinates of mainwindow
+// with considering WIDTH and HEIGHT  coordinates of settings window
+
+function get_position(mainwindow)
+{
+	let main_position = mainwindow.getPosition();
+	let main_size = mainwindow.getSize();
+
+	let position = {
+		x: main_position[0] + (main_size[0] / 2) - (WIDTH / 2),
+		y: main_position[1] + (main_size[1] / 2) - (HEIGHT / 2)
+	};
+
+	return position;
+}
+
+
+function show(mainwindow)
 {
 	if (settings != null) {
 		settings.close();
 		return;
 	}
-
-	settings = new electron.BrowserWindow({ width: 250, height: 100, alwaysOnTop: true,
+	
+	let position = get_position(mainwindow);
+	
+	settings = new electron.BrowserWindow({ width: WIDTH, height: HEIGHT, alwaysOnTop: true,
 	                                        backgroundColor: resource.title_color,
+	                                        parent: mainwindow,
+	                                        x: position.x,
+	                                        y: position.y,
 	                                        autoHideMenuBar: true,
 	                                        frame: false,
 	                                        webPreferences: {
