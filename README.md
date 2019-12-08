@@ -4,9 +4,7 @@ Exiletrade is an overlay wrapper for [https://pathofexile.com/trade](https://pat
 - Click on whisper/contant button sends trade request instantly
 - Hotkey for hide/show (***alt+a*** as default)
 
- 
-
-## Building from sources
+ ## Building from sources
 ### Required
 - [Node.js](https://nodejs.org/) (10.16.3 and 12.11.1 work for me)
 - [CMake](https://www.cmake.org/download/)
