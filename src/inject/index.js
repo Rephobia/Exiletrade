@@ -32,6 +32,8 @@ const resource = require("./resource.js").resource;
  {
 	 try {
 		 let mainwindow = remote.getCurrentWindow();
+		 mainwindow.on("hide", (e) => { settings.close(); });
+		 mainwindow.on("minimize", (e) => { mainwindow.hide(); });
 		 
 		 const menu = new remote.Menu();
 		 menu.append(new remote.MenuItem({
@@ -55,7 +57,6 @@ const resource = require("./resource.js").resource;
 		                 {
 			                 if (mainwindow.isVisible()) {
 				                 mainwindow.hide();
-				                 settings.close();
 			                 }
 			                 else {
 				                 mainwindow.showInactive();
