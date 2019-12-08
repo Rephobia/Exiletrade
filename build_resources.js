@@ -20,7 +20,7 @@
 
 
 const injections = [
-	"./src/inject/index.js"
+	"./src/inject/index.js"	
 ];
 
 
@@ -34,6 +34,7 @@ const options = {
 	singleInstance: true,
 	hideWindowFrame: true,
 	browserwindowOptions: {
+		backgroundColor: "#000000",
 		focusable: false
 	}
 };

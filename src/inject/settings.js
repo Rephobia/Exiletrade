@@ -38,6 +38,7 @@ function show()
 	}
 
 	settings = new electron.BrowserWindow({ width: 250, height: 100, alwaysOnTop: true,
+	                                        backgroundColor: resource.title_color,
 	                                        autoHideMenuBar: true,
 	                                        frame: false,
 	                                        webPreferences: {
