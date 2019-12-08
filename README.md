@@ -9,7 +9,7 @@ Showcase: [https://www.youtube.com/watch?v=yUjVUVAxKTA](https://www.youtube.com/
 ### How to install
 Download and install Java: [https://java.com/download](https://java.com/download)
 
-Download Exiletrade.zip: [Latest release](https://github.com/DoomerRoman/Exiletrade/releases
+Download Exiletrade.zip: [Latest release](https://github.com/DoomerRoman/Exiletrade/releases)
 
 ## Building from sources
 ### Required
