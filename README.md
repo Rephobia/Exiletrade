@@ -1,11 +1,10 @@
 ## Exiletrade
-Exiletrade is a wrapper for pathofexile.com/trade
-- trade is always on top (Path of Exile have to be ***windowed or windowed fullscreen***)
-- click on whisper button sends trade request instantly
-- hotkey for minimize/restore (***alt+f*** default)
+Exiletrade is an overlay wrapper for [https://pathofexile.com/trade](https://pathofexile.com/trade)
+- Trade is always on top (Path of Exile have to be ***windowed or windowed fullscreen***)
+- Click on whisper/contant button sends trade request instantly
+- Hotkey for hide/show (***alt+a*** as default)
 
-## Building from sources
-
+ ## Building from sources
 ### Required
 - [Node.js](https://nodejs.org/) (10.16.3 and 12.11.1 work for me)
 - [CMake](https://www.cmake.org/download/)
@@ -22,4 +21,3 @@ Exiletrade is a wrapper for pathofexile.com/trade
 ## OS support
 Only Windows (window management module works using WinApi)
 
-Linux version comming soon

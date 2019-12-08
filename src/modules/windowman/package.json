@@ -1,7 +1,7 @@
 {
     "name": "windowman",
     "version": "0.1.0",
-    "description": "Manage windows - set focus by title, toggle minimize/restore by title",
+    "description": "Manage windows - set focus by title, toggle show/hide by title",
         "private": true,
     "main": "index.js",
     "scripts": {
