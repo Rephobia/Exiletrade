@@ -26,6 +26,14 @@ const hotkey = require("./hotkey.js");
 const settings = require("./settings.js");
 const whisper = require("./whisper.js");
 const resource = require("./resource.js").resource;
+const path = require("path");
+const fs = require("fs");
+
+function include_css(mainwindow, filename)
+{	
+	let file = fs.readFileSync(path.join(__dirname, filename), "utf8");
+	mainwindow.webContents.insertCSS(file);
+}
 
 
 (function main()
@@ -67,6 +75,7 @@ const resource = require("./resource.js").resource;
 		                 () => { settings.show(mainwindow); });
 
 		 document.onclick = whisper.hook;
+		 include_css(mainwindow, "scrollbar.css");
 	 }
 	 catch (err) {
 		 console.log(err);
