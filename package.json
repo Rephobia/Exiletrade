@@ -1,6 +1,6 @@
 {
     "name": "Exiletrade",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Exiletrade is a wrapper for pathofexile.com/trade",
     "dependencies": {
         "cmake-js": "^6.0.0",
