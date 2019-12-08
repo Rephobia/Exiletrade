@@ -36,7 +36,7 @@ const resource = require("./resource.js").resource;
 		 const menu = new remote.Menu();
 		 menu.append(new remote.MenuItem({
 			 label: "Settings",
-			 click: () => { settings.show(); }
+			 click: () => { settings.show(mainwindow); }
 		 }));
 		 menu.append(new remote.MenuItem({
 			 label: "Console",
@@ -62,7 +62,8 @@ const resource = require("./resource.js").resource;
 			                 }
 		                 });
 
-		 hotkey.register(resource.settings.name, resource.settings.sequence, settings.show);
+		 hotkey.register(resource.settings.name, resource.settings.sequence,
+		                 () => { settings.show(mainwindow); });
 
 		 document.onclick = whisper.hook;
 	 }
