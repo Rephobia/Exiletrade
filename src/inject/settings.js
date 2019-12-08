@@ -51,6 +51,10 @@ function get_position(mainwindow)
 
 function show(mainwindow)
 {
+	if (!mainwindow.isVisible()) {
+		return;
+	}
+		
 	if (settings != null) {
 		settings.close();
 		return;
