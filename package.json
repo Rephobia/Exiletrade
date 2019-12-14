@@ -1,6 +1,6 @@
 {
     "name": "Exiletrade",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Exiletrade is a wrapper for pathofexile.com/trade",
     "dependencies": {
         "cmake-js": "^6.0.0",
@@ -19,6 +19,6 @@
     "license": "GPL-3.0-or-later",
     "repository": {
         "type": "git",
-        "url": "https://gitlhub.com/DoomerRoman/Exiletrade"
+        "url": "https://github.com/DoomerRoman/Exiletrade"
     }
 }
