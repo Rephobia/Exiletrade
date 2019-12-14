@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.2.1] - 2019-12-14
+### Removed
+- Non-focusable mainwindow
+
 ## [0.2.0] - 2019-12-08
 ### Added
 - Settings
