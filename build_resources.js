@@ -25,17 +25,16 @@ const injections = [
 
 
 const options = {
-	name: 'Exiletrade',
-	targetUrl: 'https://pathofexile.com/trade',
-	out: 'build',
+	name: "Exiletrade",
+	targetUrl: "https://pathofexile.com/trade",
+	out: "build",
 	inject : injections,
 	alwaysOnTop : true,
 	tray: "start-in-tray",
 	singleInstance: true,
 	hideWindowFrame: true,
 	browserwindowOptions: {
-		backgroundColor: "#000000",
-		focusable: false
+		backgroundColor: "#000000"
 	}
 };
 
